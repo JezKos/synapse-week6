@@ -1,0 +1,21 @@
+{
+	"name": "HTTPS_trains2_JSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "HTTPS_digitraffictrains_JSON",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "v1/trains/latest/2"
+			},
+			"compression": {
+				"type": "gzip"
+			}
+		},
+		"schema": {}
+	}
+}
