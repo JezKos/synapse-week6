@@ -16,6 +16,9 @@
 			"transformations": [
 				{
 					"name": "select1"
+				},
+				{
+					"name": "flatten1"
 				}
 			],
 			"scriptLines": [
@@ -32,7 +35,25 @@
 				"          features",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 foldDown(unroll(features),",
+				"     mapColumn(",
+				"          type = features.type,",
+				"          coordinates = features.geometry.coordinates,",
+				"          siteNumber = features.properties.siteNumber,",
+				"          siteName = features.properties.siteName,",
+				"          siteType = features.properties.siteType,",
+				"          lastUpdate = features.properties.lastUpdate,",
+				"          seaState = features.properties.seaState,",
+				"          trend = features.properties.trend,",
+				"          windWaveDir = features.properties.windWaveDir,",
+				"          confidence = features.properties.confidence,",
+				"          heelAngle = features.properties.heelAngle,",
+				"          lightStatus = features.properties.lightStatus,",
+				"          temperature = features.properties.temperature",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flatten1"
 			]
 		}
 	}
