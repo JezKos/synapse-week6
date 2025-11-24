@@ -1,5 +1,5 @@
 {
-	"name": "HTTP_alkoholidata_CSV",
+	"name": "ADLS_Alkoholitiedosto_CSV",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "jessica-synapse-WorkspaceDefaultStorage",

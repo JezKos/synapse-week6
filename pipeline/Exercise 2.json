@@ -54,7 +54,7 @@
 				],
 				"outputs": [
 					{
-						"referenceName": "HTTP_alkoholidata_CSV",
+						"referenceName": "ADLS_Alkoholitiedosto_CSV",
 						"type": "DatasetReference"
 					}
 				]
