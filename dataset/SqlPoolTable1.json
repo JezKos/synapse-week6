@@ -23,7 +23,7 @@
 		],
 		"typeProperties": {
 			"schema": "dbo",
-			"table": "drinks"
+			"table": "drinks2"
 		},
 		"sqlPool": {
 			"referenceName": "jessicasqlpool",
