@@ -15,6 +15,82 @@
 				"fileSystem": "jessica"
 			}
 		},
-		"schema": {}
+		"schema": {
+			"type": "object",
+			"properties": {
+				"type": {
+					"type": "string"
+				},
+				"dataUpdatedTime": {
+					"type": "string"
+				},
+				"features": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"siteNumber": {
+								"type": "integer"
+							},
+							"type": {
+								"type": "string"
+							},
+							"geometry": {
+								"type": "object",
+								"properties": {
+									"type": {
+										"type": "string"
+									},
+									"coordinates": {
+										"type": "array",
+										"items": {
+											"type": "number"
+										}
+									}
+								}
+							},
+							"properties": {
+								"type": "object",
+								"properties": {
+									"siteNumber": {
+										"type": "integer"
+									},
+									"siteName": {
+										"type": "string"
+									},
+									"siteType": {
+										"type": "string"
+									},
+									"lastUpdate": {
+										"type": "string"
+									},
+									"seaState": {
+										"type": "string"
+									},
+									"trend": {
+										"type": "string"
+									},
+									"windWaveDir": {
+										"type": "integer"
+									},
+									"confidence": {
+										"type": "string"
+									},
+									"heelAngle": {
+										"type": "number"
+									},
+									"lightStatus": {
+										"type": "string"
+									},
+									"temperature": {
+										"type": "integer"
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
