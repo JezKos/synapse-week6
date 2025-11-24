@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "/v1/trains/latest/1"
+				"relativeUrl": "/trains/latest/1"
 			}
 		},
 		"schema": {}
