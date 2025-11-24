@@ -40,8 +40,6 @@
 				"     skipDuplicateMapInputs: false,",
 				"     skipDuplicateMapOutputs: false) ~> flattenJsonToTable",
 				"meridata select(mapColumn(",
-				"          type,",
-				"          dataUpdatedTime,",
 				"          features",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
