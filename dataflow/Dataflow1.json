@@ -1,0 +1,60 @@
+{
+	"name": "Dataflow1",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ADLS_trains1_JSON",
+						"type": "DatasetReference"
+					},
+					"name": "juna1"
+				},
+				{
+					"dataset": {
+						"referenceName": "ADLS_trains2_JSON",
+						"type": "DatasetReference"
+					},
+					"name": "juna2"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "yhdista"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          trainNumber as integer,",
+				"          departureDate as string,",
+				"          operatorUICCode as integer,",
+				"          operatorShortCode as string,",
+				"          trainType as string,",
+				"          trainCategory as string,",
+				"          commuterLineID as string,",
+				"          runningCurrently as boolean,",
+				"          cancelled as boolean,",
+				"          version as integer,",
+				"          timetableType as string,",
+				"          timetableAcceptanceDate as string,",
+				"          timeTableRows as (stationShortCode as string, stationUICCode as integer, countryCode as string, type as string, trainStopping as boolean, commercialStop as boolean, cancelled as boolean, scheduledTime as string, actualTime as string, differenceInMinutes as integer, causes as string[], stopSector as string, commercialTrack as string, trainReady as (source as string, accepted as boolean, timestamp as string))[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> juna1",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> juna2",
+				"juna1, juna2 join(trainNumber == ERROR_FUNCTION(''),",
+				"     joinType:'outer',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> yhdista"
+			]
+		}
+	}
+}
