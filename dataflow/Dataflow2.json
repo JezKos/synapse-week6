@@ -1,0 +1,52 @@
+{
+	"name": "Dataflow2",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "ADLS_meridata_JSON",
+						"type": "DatasetReference"
+					},
+					"name": "meridata"
+				}
+			],
+			"sinks": [],
+			"transformations": [
+				{
+					"name": "flattenJsonToTable"
+				},
+				{
+					"name": "select1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          type as string,",
+				"          dataUpdatedTime as string,",
+				"          features as (siteNumber as integer, type as string, geometry as (type as string, coordinates as double[]), properties as (siteNumber as integer, siteName as string, siteType as string, lastUpdate as string, seaState as string, trend as string, windWaveDir as integer, confidence as string, heelAngle as double, lightStatus as string, temperature as integer))[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false,",
+				"     documentForm: 'documentPerLine') ~> meridata",
+				"select1 foldDown(unroll(),",
+				"     mapColumn(",
+				"          type,",
+				"          dataUpdatedTime,",
+				"          features",
+				"     ),",
+				"     skipDuplicateMapInputs: false,",
+				"     skipDuplicateMapOutputs: false) ~> flattenJsonToTable",
+				"meridata select(mapColumn(",
+				"          type,",
+				"          dataUpdatedTime,",
+				"          features",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1"
+			]
+		}
+	}
+}
