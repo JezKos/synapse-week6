@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "HttpServer",
 		"typeProperties": {
-			"url": "https://meri.digitraffic.fi/api/sse/v1/",
+			"url": "https://meri.digitraffic.fi/api/sse/",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous"
 		},
