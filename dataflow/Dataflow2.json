@@ -31,7 +31,7 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> meridata",
-				"meridata foldDown(unroll(),",
+				"select1 foldDown(unroll(),",
 				"     mapColumn(",
 				"          features",
 				"     ),",
