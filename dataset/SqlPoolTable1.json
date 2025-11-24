@@ -1,6 +1,11 @@
 {
 	"name": "SqlPoolTable1",
 	"properties": {
+		"parameters": {
+			"kohdetaulu": {
+				"type": "string"
+			}
+		},
 		"annotations": [],
 		"type": "SqlPoolTable",
 		"schema": [
