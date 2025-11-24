@@ -1,0 +1,23 @@
+{
+	"name": "ADLS_trains2_JSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "jessica-synapse-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "trains2.json",
+				"folderPath": "trains",
+				"fileSystem": "jessica"
+			},
+			"compression": {
+				"type": "gzip"
+			}
+		},
+		"schema": {}
+	}
+}
