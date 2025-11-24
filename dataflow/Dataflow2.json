@@ -19,6 +19,12 @@
 				},
 				{
 					"name": "flatten1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -53,7 +59,9 @@
 				"          temperature = features.properties.temperature",
 				"     ),",
 				"     skipDuplicateMapInputs: false,",
-				"     skipDuplicateMapOutputs: false) ~> flatten1"
+				"     skipDuplicateMapOutputs: false) ~> flatten1",
+				"flatten1 derive(latitude = coordinates[1]) ~> derivedColumn1",
+				"derivedColumn1 derive(longitude = coordinates[2]) ~> derivedColumn2"
 			]
 		}
 	}
