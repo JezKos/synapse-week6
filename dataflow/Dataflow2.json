@@ -19,6 +19,12 @@
 				},
 				{
 					"name": "select1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -54,7 +60,9 @@
 				"          features",
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> select1"
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"flattenJsonToTable derive(latitude = coordinates[1]) ~> derivedColumn1",
+				"derivedColumn1 derive(longitude = coordinates[2]) ~> derivedColumn2"
 			]
 		}
 	}
