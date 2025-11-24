@@ -1,0 +1,17 @@
+{
+	"name": "HTPP_GitHub",
+	"properties": {
+		"description": "Palvelin, josta löytyy tehtävän kaksi viinatiedosto. ",
+		"annotations": [],
+		"type": "HttpServer",
+		"typeProperties": {
+			"url": "https://raw.githubusercontent.com/fivethirtyeight/",
+			"enableServerCertificateValidation": true,
+			"authenticationType": "Anonymous"
+		},
+		"connectVia": {
+			"referenceName": "AutoResolveIntegrationRuntime",
+			"type": "IntegrationRuntimeReference"
+		}
+	}
+}
