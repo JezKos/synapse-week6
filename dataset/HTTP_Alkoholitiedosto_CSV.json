@@ -1,0 +1,43 @@
+{
+	"name": "HTTP_Alkoholitiedosto_CSV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "HTPP_GitHub",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "data/master/alcohol-consumption/drinks.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": [
+			{
+				"name": "country",
+				"type": "String"
+			},
+			{
+				"name": "beer_servings",
+				"type": "String"
+			},
+			{
+				"name": "spirit_servings",
+				"type": "String"
+			},
+			{
+				"name": "wine_servings",
+				"type": "String"
+			},
+			{
+				"name": "total_litres_of_pure_alcohol",
+				"type": "String"
+			}
+		]
+	}
+}
