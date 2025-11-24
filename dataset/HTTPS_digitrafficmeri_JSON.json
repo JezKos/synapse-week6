@@ -1,0 +1,21 @@
+{
+	"name": "HTTPS_digitrafficmeri_JSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "HTTPS_digitrafficmeridata_JSON",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "/measurements"
+			},
+			"compression": {
+				"type": "gzip"
+			}
+		},
+		"schema": {}
+	}
+}
