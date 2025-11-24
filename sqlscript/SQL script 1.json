@@ -1,0 +1,17 @@
+{
+	"name": "SQL script 1",
+	"properties": {
+		"content": {
+			"query": "SELECT TOP (100) [country]\n,[spirit_servings]\n,[wine_servings]\n,[total_litres_of_pure_alcohol]\n FROM [dbo].[drinks2]\n\n\n SELECT TOP (100) country, total_litres_of_pure_alcohol FROM dbo.drinks2 ORDER BY total_litres_of_pure_alcohol DESC;",
+			"metadata": {
+				"language": "sql"
+			},
+			"currentConnection": {
+				"databaseName": "jessicasqlpool",
+				"poolName": "jessicasqlpool"
+			},
+			"resultLimit": 5000
+		},
+		"type": "SqlQuery"
+	}
+}
