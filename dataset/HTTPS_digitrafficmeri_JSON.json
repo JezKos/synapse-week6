@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "/measurements"
+				"relativeUrl": "v1/measurements"
 			},
 			"compression": {
 				"type": "gzip"
