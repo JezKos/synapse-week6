@@ -19,9 +19,7 @@
 						"type": "JsonSource",
 						"storeSettings": {
 							"type": "HttpReadSettings",
-							"requestMethod": "GET",
-							"additionalHeaders": "Accept-Encoding: gzip",
-							"requestTimeout": ""
+							"requestMethod": "GET"
 						},
 						"formatSettings": {
 							"type": "JsonReadSettings"
@@ -40,13 +38,13 @@
 				},
 				"inputs": [
 					{
-						"referenceName": "HTTPS_trainsdata1_JSON",
+						"referenceName": "HTTPS_trains1_JSON",
 						"type": "DatasetReference"
 					}
 				],
 				"outputs": [
 					{
-						"referenceName": "ADLS_trainsdata1_JSON",
+						"referenceName": "ADLS_trains1_JSON",
 						"type": "DatasetReference"
 					}
 				]
