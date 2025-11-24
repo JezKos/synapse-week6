@@ -27,7 +27,7 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
-				"     documentForm: 'documentPerLine') ~> meridata",
+				"     documentForm: 'singleDocument') ~> meridata",
 				"meridata select(mapColumn(",
 				"          features",
 				"     ),",
