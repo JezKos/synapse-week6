@@ -15,6 +15,84 @@
 				"fileSystem": "jessica"
 			}
 		},
-		"schema": {}
+		"schema": {
+			"type": "object",
+			"properties": {
+				"trainNumber": {
+					"type": "integer"
+				},
+				"departureDate": {
+					"type": "string"
+				},
+				"operatorUICCode": {
+					"type": "integer"
+				},
+				"operatorShortCode": {
+					"type": "string"
+				},
+				"trainType": {
+					"type": "string"
+				},
+				"trainCategory": {
+					"type": "string"
+				},
+				"commuterLineID": {
+					"type": "string"
+				},
+				"runningCurrently": {
+					"type": "boolean"
+				},
+				"cancelled": {
+					"type": "boolean"
+				},
+				"version": {
+					"type": "integer"
+				},
+				"timetableType": {
+					"type": "string"
+				},
+				"timetableAcceptanceDate": {
+					"type": "string"
+				},
+				"timeTableRows": {
+					"type": "array",
+					"items": {
+						"type": "object",
+						"properties": {
+							"stationShortCode": {
+								"type": "string"
+							},
+							"stationUICCode": {
+								"type": "integer"
+							},
+							"countryCode": {
+								"type": "string"
+							},
+							"type": {
+								"type": "string"
+							},
+							"trainStopping": {
+								"type": "boolean"
+							},
+							"commercialStop": {
+								"type": "boolean"
+							},
+							"cancelled": {
+								"type": "boolean"
+							},
+							"scheduledTime": {
+								"type": "string"
+							},
+							"causes": {
+								"type": "array"
+							},
+							"commercialTrack": {
+								"type": "string"
+							}
+						}
+					}
+				}
+			}
+		}
 	}
 }
