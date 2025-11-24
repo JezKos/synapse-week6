@@ -36,7 +36,13 @@
 						},
 						"tableOption": "autoCreate"
 					},
-					"enableStaging": false,
+					"enableStaging": true,
+					"stagingSettings": {
+						"linkedServiceName": {
+							"referenceName": "jessica-synapse-WorkspaceDefaultStorage",
+							"type": "LinkedServiceReference"
+						}
+					},
 					"translator": {
 						"type": "TabularTranslator",
 						"mappings": [
