@@ -13,6 +13,9 @@
 				"fileName": "trains2.json",
 				"folderPath": "trains",
 				"fileSystem": "jessica"
+			},
+			"compression": {
+				"type": "gzip"
 			}
 		},
 		"schema": {}
