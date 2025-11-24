@@ -10,7 +10,7 @@
 		"typeProperties": {
 			"location": {
 				"type": "HttpServerLocation",
-				"relativeUrl": "v1/trains/latest/2"
+				"relativeUrl": "trains/latest/2"
 			},
 			"compression": {
 				"type": "gzip"
