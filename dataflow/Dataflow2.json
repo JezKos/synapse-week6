@@ -75,7 +75,6 @@
 				"derivedColumn1 derive(longitude = coordinates[2]) ~> derivedColumn2",
 				"derivedColumn2 select(mapColumn(",
 				"          type,",
-				"          coordinates,",
 				"          siteNumber,",
 				"          siteName,",
 				"          siteType,",
