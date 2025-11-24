@@ -59,7 +59,7 @@
 							{
 								"source": {
 									"name": "spirit_servings",
-									"type": "String"
+									"type": "Double"
 								},
 								"sink": {
 									"name": "spirit_servings",
@@ -69,7 +69,7 @@
 							{
 								"source": {
 									"name": "wine_servings",
-									"type": "String"
+									"type": "Double"
 								},
 								"sink": {
 									"name": "wine_servings",
@@ -79,7 +79,7 @@
 							{
 								"source": {
 									"name": "total_litres_of_pure_alcohol",
-									"type": "String"
+									"type": "Double"
 								},
 								"sink": {
 									"name": "total_litres_of_pure_alcohol",

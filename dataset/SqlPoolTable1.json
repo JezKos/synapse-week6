@@ -3,7 +3,24 @@
 	"properties": {
 		"annotations": [],
 		"type": "SqlPoolTable",
-		"schema": [],
+		"schema": [
+			{
+				"name": "country",
+				"type": "nvarchar"
+			},
+			{
+				"name": "spirit_servings",
+				"type": "nvarchar"
+			},
+			{
+				"name": "wine_servings",
+				"type": "nvarchar"
+			},
+			{
+				"name": "total_litres_of_pure_alcohol",
+				"type": "nvarchar"
+			}
+		],
 		"typeProperties": {
 			"schema": "dbo",
 			"table": "drinks"
