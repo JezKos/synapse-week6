@@ -1,0 +1,20 @@
+{
+	"name": "ADLS_meridata_JSON",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "jessica-synapse-WorkspaceDefaultStorage",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "Json",
+		"typeProperties": {
+			"location": {
+				"type": "AzureBlobFSLocation",
+				"fileName": "meridata.json",
+				"folderPath": "meri",
+				"fileSystem": "jessica"
+			}
+		},
+		"schema": {}
+	}
+}
