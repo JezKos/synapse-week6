@@ -94,7 +94,13 @@
 				"outputs": [
 					{
 						"referenceName": "SqlPoolTable1",
-						"type": "DatasetReference"
+						"type": "DatasetReference",
+						"parameters": {
+							"kohdetaulu": {
+								"value": "@pipeline().parameters.kohdetaulu",
+								"type": "Expression"
+							}
+						}
 					}
 				]
 			}
