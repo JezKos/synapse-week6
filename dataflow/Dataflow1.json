@@ -19,16 +19,24 @@
 					"name": "juna2"
 				}
 			],
-			"sinks": [],
-			"transformations": [
+			"sinks": [
 				{
-					"name": "yhdista"
-				},
+					"dataset": {
+						"referenceName": "AzureSynapseAnalyticsTable1",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
 				{
 					"name": "poistaAikataulurivit1"
 				},
 				{
 					"name": "poistaAikataulurivit2"
+				},
+				{
+					"name": "union1"
 				}
 			],
 			"scriptLines": [
@@ -51,15 +59,28 @@
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> juna1",
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          trainNumber as integer,",
+				"          departureDate as string,",
+				"          operatorUICCode as integer,",
+				"          operatorShortCode as string,",
+				"          trainType as string,",
+				"          trainCategory as string,",
+				"          commuterLineID as string,",
+				"          runningCurrently as boolean,",
+				"          cancelled as boolean,",
+				"          version as integer,",
+				"          timetableType as string,",
+				"          timetableAcceptanceDate as string,",
+				"          timeTableRows as (stationShortCode as string, stationUICCode as integer, countryCode as string, type as string, trainStopping as boolean, commercialStop as boolean, cancelled as boolean, scheduledTime as string, causes as string[], commercialTrack as string)[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     ignoreNoFilesFound: false,",
 				"     documentForm: 'documentPerLine') ~> juna2",
-				"poistaAikataulurivit1, juna2 lookup(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
-				"     multiple: false,",
-				"     pickup: 'any',",
-				"     broadcast: 'auto')~> yhdista",
 				"juna1 select(mapColumn(",
+				"          trainNumber,",
+				"          departureDate,",
 				"          operatorUICCode,",
 				"          operatorShortCode,",
 				"          trainType,",
@@ -73,8 +94,35 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> poistaAikataulurivit1",
-				"juna2 select(skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> poistaAikataulurivit2"
+				"juna2 select(mapColumn(",
+				"          trainNumber,",
+				"          departureDate,",
+				"          operatorUICCode,",
+				"          operatorShortCode,",
+				"          trainType,",
+				"          trainCategory,",
+				"          commuterLineID,",
+				"          runningCurrently,",
+				"          cancelled,",
+				"          version,",
+				"          timetableType,",
+				"          timetableAcceptanceDate",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> poistaAikataulurivit2",
+				"poistaAikataulurivit1, poistaAikataulurivit2 union(byName: true)~> union1",
+				"union1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
