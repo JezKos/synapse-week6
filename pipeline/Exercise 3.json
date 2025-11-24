@@ -28,9 +28,55 @@
 					},
 					"sink": {
 						"type": "SqlPoolSink",
-						"allowCopyCommand": true
+						"allowCopyCommand": true,
+						"tableOption": "autoCreate"
 					},
-					"enableStaging": false
+					"enableStaging": false,
+					"translator": {
+						"type": "TabularTranslator",
+						"mappings": [
+							{
+								"source": {
+									"name": "country",
+									"type": "String"
+								},
+								"sink": {
+									"name": "country",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "spirit_servings",
+									"type": "String"
+								},
+								"sink": {
+									"name": "spirit_servings",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "wine_servings",
+									"type": "String"
+								},
+								"sink": {
+									"name": "wine_servings",
+									"type": "String"
+								}
+							},
+							{
+								"source": {
+									"name": "total_litres_of_pure_alcohol",
+									"type": "String"
+								},
+								"sink": {
+									"name": "total_litres_of_pure_alcohol",
+									"type": "String"
+								}
+							}
+						]
+					}
 				},
 				"inputs": [
 					{
