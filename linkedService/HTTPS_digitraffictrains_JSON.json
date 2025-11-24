@@ -4,7 +4,7 @@
 		"annotations": [],
 		"type": "HttpServer",
 		"typeProperties": {
-			"url": "https://rata.digitraffic.fi/api/",
+			"url": "https://rata.digitraffic.fi/api/v1/",
 			"enableServerCertificateValidation": true,
 			"authenticationType": "Anonymous"
 		},
