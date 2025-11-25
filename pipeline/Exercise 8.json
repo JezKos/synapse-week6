@@ -37,7 +37,7 @@
 							"referenceName": "jessica-synapse-WorkspaceDefaultStorage",
 							"type": "LinkedServiceReference"
 						},
-						"folderPath": "jessica"
+						"folderPath": "jessica/synapse"
 					},
 					"compute": {
 						"coreCount": 8,
