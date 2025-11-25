@@ -5,6 +5,10 @@
 		"typeProperties": {
 			"sources": [
 				{
+					"dataset": {
+						"referenceName": "ADLS_prices_CSV",
+						"type": "DatasetReference"
+					},
 					"name": "prices"
 				}
 			],
@@ -12,7 +16,8 @@
 			"transformations": [],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
-				"     validateSchema: false) ~> prices"
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> prices"
 			]
 		}
 	}
