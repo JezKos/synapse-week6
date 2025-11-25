@@ -1,0 +1,129 @@
+{
+	"name": "TransformFlightsData",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "AzurePostgreSqlTable1",
+						"type": "DatasetReference"
+					},
+					"name": "source1"
+				},
+				{
+					"dataset": {
+						"referenceName": "AzurePostgreSqlTable2",
+						"type": "DatasetReference"
+					},
+					"name": "source2"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSynapseAnalyticsTable3",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "seatsPerAircraft"
+				},
+				{
+					"name": "join1"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "filter1"
+				}
+			],
+			"scriptLines": [
+				"source(output(",
+				"          flight_id as integer,",
+				"          flight_no as string,",
+				"          scheduled_departure as timestamp,",
+				"          scheduled_departure_local as timestamp,",
+				"          scheduled_arrival as timestamp,",
+				"          scheduled_arrival_local as timestamp,",
+				"          scheduled_duration as string,",
+				"          departure_airport as string,",
+				"          departure_airport_name as string,",
+				"          departure_city as string,",
+				"          arrival_airport as string,",
+				"          arrival_airport_name as string,",
+				"          arrival_city as string,",
+				"          status as string,",
+				"          aircraft_code as string,",
+				"          actual_departure as timestamp,",
+				"          actual_departure_local as timestamp,",
+				"          actual_arrival as timestamp,",
+				"          actual_arrival_local as timestamp,",
+				"          actual_duration as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source1",
+				"source(output(",
+				"          aircraft_code as string,",
+				"          seat_no as string,",
+				"          fare_conditions as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> source2",
+				"source2 aggregate(groupBy(aircraft_code),",
+				"     seats = count()) ~> seatsPerAircraft",
+				"source1, seatsPerAircraft join(source1@aircraft_code == seatsPerAircraft@aircraft_code,",
+				"     joinType:'left',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1",
+				"join1 select(mapColumn(",
+				"          flight_id,",
+				"          flight_no,",
+				"          scheduled_departure,",
+				"          scheduled_departure_local,",
+				"          scheduled_arrival,",
+				"          scheduled_arrival_local,",
+				"          scheduled_duration,",
+				"          departure_airport,",
+				"          departure_airport_name,",
+				"          departure_city,",
+				"          arrival_airport,",
+				"          arrival_airport_name,",
+				"          arrival_city,",
+				"          status,",
+				"          aircraft_code = source1@aircraft_code,",
+				"          actual_departure,",
+				"          actual_departure_local,",
+				"          actual_arrival,",
+				"          actual_arrival_local,",
+				"          actual_duration,",
+				"          seats",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 filter(!isNull(seats)) ~> filter1",
+				"filter1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
+			]
+		}
+	}
+}
