@@ -1,0 +1,22 @@
+{
+	"name": "HTTPS_githubprices_CSV",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "HTTP_githubskillio_CSV",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "DelimitedText",
+		"typeProperties": {
+			"location": {
+				"type": "HttpServerLocation",
+				"relativeUrl": "main/prices.csv"
+			},
+			"columnDelimiter": ",",
+			"escapeChar": "\\",
+			"firstRowAsHeader": true,
+			"quoteChar": "\""
+		},
+		"schema": []
+	}
+}
