@@ -10,14 +10,33 @@
 						"type": "DatasetReference"
 					},
 					"name": "prices"
+				},
+				{
+					"dataset": {
+						"referenceName": "ADLS_prod_CSV",
+						"type": "DatasetReference"
+					},
+					"name": "products"
 				}
 			],
 			"sinks": [],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "join1"
+				}
+			],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> prices"
+				"     ignoreNoFilesFound: false) ~> prices",
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> products",
+				"prices, products join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
+				"     joinType:'outer',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> join1"
 			]
 		}
 	}
