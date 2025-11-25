@@ -1,0 +1,16 @@
+{
+	"name": "AzureSynapseAnalyticsTable5",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "jessica-synapse-WorkspaceDefaultSqlServer",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "products"
+		}
+	}
+}

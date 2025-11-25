@@ -19,24 +19,70 @@
 					"name": "products"
 				}
 			],
-			"sinks": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSynapseAnalyticsTable5",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
 			"transformations": [
 				{
 					"name": "join1"
+				},
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "MapDrifted2",
+					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
 				"     ignoreNoFilesFound: false) ~> prices",
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
+				"     inferDriftedColumnTypes: true,",
 				"     ignoreNoFilesFound: false) ~> products",
-				"prices, products join(ERROR_FUNCTION('') == ERROR_FUNCTION(''),",
-				"     joinType:'left',",
+				"MapDrifted1, MapDrifted2 join(MapDrifted1@PROD == MapDrifted2@PROD,",
+				"     joinType:'outer',",
 				"     matchType:'exact',",
 				"     ignoreSpaces: false,",
-				"     broadcast: 'auto')~> join1"
+				"     broadcast: 'auto')~> join1",
+				"prices derive(PROD = toShort(byName('PROD')),",
+				"          PRICE = toShort(byName('PRICE'))) ~> MapDrifted1",
+				"products derive(PROD = toShort(byName('PROD')),",
+				"          PART = toString(byName('PART')),",
+				"          SUPPLIER = toString(byName('SUPPLIER'))) ~> MapDrifted2",
+				"join1 select(mapColumn(",
+				"          PROD = MapDrifted1@PROD,",
+				"          PRICE,",
+				"          PART,",
+				"          SUPPLIER",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
