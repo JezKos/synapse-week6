@@ -17,6 +17,19 @@
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
 		},
-		"schema": []
+		"schema": [
+			{
+				"name": "PROD",
+				"type": "String"
+			},
+			{
+				"name": "PART",
+				"type": "String"
+			},
+			{
+				"name": "SUPPLIER",
+				"type": "String"
+			}
+		]
 	}
 }
