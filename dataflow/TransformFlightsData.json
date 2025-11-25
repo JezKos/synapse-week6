@@ -40,6 +40,9 @@
 				},
 				{
 					"name": "filter1"
+				},
+				{
+					"name": "extractDate"
 				}
 			],
 			"scriptLines": [
@@ -111,7 +114,8 @@
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> select1",
 				"select1 filter(!isNull(seats)) ~> filter1",
-				"filter1 sink(allowSchemaDrift: true,",
+				"filter1 derive(scheduled_departure_date = toDate(scheduled_departure)) ~> extractDate",
+				"extractDate sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
