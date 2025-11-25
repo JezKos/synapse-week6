@@ -1,0 +1,87 @@
+{
+	"name": "Notebook 1",
+	"properties": {
+		"nbformat": 4,
+		"nbformat_minor": 2,
+		"bigDataPool": {
+			"referenceName": "sparkpool",
+			"type": "BigDataPoolReference"
+		},
+		"sessionProperties": {
+			"driverMemory": "56g",
+			"driverCores": 8,
+			"executorMemory": "56g",
+			"executorCores": 8,
+			"numExecutors": 2,
+			"conf": {
+				"spark.dynamicAllocation.enabled": "false",
+				"spark.dynamicAllocation.minExecutors": "2",
+				"spark.dynamicAllocation.maxExecutors": "2",
+				"spark.autotune.trackingId": "c474c19d-fb0e-4169-ad28-098761ad28b9"
+			}
+		},
+		"metadata": {
+			"saveOutput": true,
+			"enableDebugMode": false,
+			"kernelspec": {
+				"name": "synapse_pyspark",
+				"display_name": "Synapse PySpark"
+			},
+			"language_info": {
+				"name": "python"
+			},
+			"a365ComputeOptions": {
+				"id": "/subscriptions/23b183d5-a30f-46b8-b418-ad060fb67787/resourceGroups/jessica_rg/providers/Microsoft.Synapse/workspaces/jessica-synapse/bigDataPools/sparkpool",
+				"name": "sparkpool",
+				"type": "Spark",
+				"endpoint": "https://jessica-synapse.dev.azuresynapse.net/livyApi/versions/2019-11-01-preview/sparkPools/sparkpool",
+				"auth": {
+					"type": "AAD",
+					"authResource": "https://dev.azuresynapse.net"
+				},
+				"sparkVersion": "3.5",
+				"nodeCount": 10,
+				"cores": 8,
+				"memory": 56,
+				"automaticScaleJobs": false
+			},
+			"sessionKeepAliveTimeout": 30
+		},
+		"cells": [
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql import SparkSession\n",
+					"from pyspark.sql.types import * \n",
+					"\n",
+					"account_name = \"jessicaadls\"\n",
+					"container_name = \"jessica\"\n",
+					"relative_path = \"titanic\"\n",
+					"adls_path = 'abfss://%s@%s.dfs.core.windows.net/%s' % (container_name, account_name, relative_path)\n",
+					"\n",
+					"\n",
+					"\n",
+					"data = spark.read.option('header', 'true').option('delimiter', ',').csv(adls_path + '/titanic.csv')\n",
+					"\n",
+					"data = data.toPandas()\n",
+					"\n",
+					"data.head()"
+				],
+				"execution_count": 3
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"# filter by sex and select only females\n",
+					"data_females = data[data['Sex'] == 'female']\n",
+					"#sort from highest fare\n",
+					"data_females.sort('Fare')\n",
+					"# save data to same datalake, use different filename\n",
+					"\n",
+					"data_females.head()"
+				],
+				"execution_count": null
+			}
+		]
+	}
+}
