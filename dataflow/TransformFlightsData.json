@@ -22,7 +22,7 @@
 			"sinks": [
 				{
 					"dataset": {
-						"referenceName": "AzureSynapseAnalyticsTable3",
+						"referenceName": "AzureSynapseAnalyticsTable4",
 						"type": "DatasetReference"
 					},
 					"name": "sink1"
