@@ -1,5 +1,5 @@
 {
-	"name": "Notebook 1",
+	"name": "Notebook 2",
 	"properties": {
 		"nbformat": 4,
 		"nbformat_minor": 2,
@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "96ba3b69-7d29-4e01-b03e-c222119ffeb4"
+				"spark.autotune.trackingId": "2c776361-b815-458e-b6ff-370dee95b424"
 			}
 		},
 		"metadata": {
@@ -54,7 +54,6 @@
 					"from pyspark.sql import SparkSession\n",
 					"from pyspark.sql.types import * \n",
 					"\n",
-					"\n",
 					"account_name = \"jessicaadls\"\n",
 					"container_name = \"jessica\"\n",
 					"relative_path = \"titanic\"\n",
@@ -63,40 +62,32 @@
 					"\n",
 					"\n",
 					"data = spark.read.option('header', 'true').option('delimiter', ',').csv(adls_path + '/titanic.csv')\n",
-					"\n",
-					"#Now normal pandas dataframe, not spark\n",
-					"data = data.toPandas()\n",
-					"\n",
-					"data.head()"
+					""
 				],
-				"execution_count": 15
+				"execution_count": 1
 			},
 			{
 				"cell_type": "code",
 				"source": [
+					"from pyspark.sql.functions import regexp_replace, avg, when, col\n",
 					"\n",
-					"# filter by sex and select only females\n",
-					"data_females = data[data['Sex'] == 'female']\n",
-					"#sort from highest fare\n",
-					"#data_females = data_females.withColumn(\"Fare\", data_females[\"Fare\"].cast(IntegerType()))\n",
-					"data_females.sort_values('Fare',inplace=True, ascending=False)\n",
-					"# save data to same datalake, use different filename\n",
+					"data = data.withColumn(\"Name\", regexp_replace(\"Name\", \"Mr. |Ms. |Mrs. |Miss \", \"\"))\n",
 					"\n",
-					"data_females.head()\n",
+					"#highFare column\n",
+					"avg_fare = data.select(avg(\"Fare\")).collect()[0][0]\n",
 					"\n",
-					"# pd to Spark DF\n",
-					"\n",
-					"df = spark.createDataFrame(data_females)\n",
-					"df.write.csv(adls_path + \"/titanic_females.csv\")"
+					"data = data.withColumn(\"highFare\", when(data.Fare> avg_fare,\n",
+					" \"1\" ).otherwise(0))\n",
+					""
 				],
-				"execution_count": 17
+				"execution_count": 9
 			},
 			{
 				"cell_type": "code",
 				"source": [
-					"data_females"
+					"data.write.csv(adls_path + \"/titanic_mod.csv\")"
 				],
-				"execution_count": 7
+				"execution_count": 10
 			}
 		]
 	}
