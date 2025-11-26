@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "601c626a-5758-4c20-bddd-a8735bac7e7f"
+				"spark.autotune.trackingId": "c056fa00-9209-440a-8675-ccd6fcb1648d"
 			}
 		},
 		"metadata": {
@@ -104,6 +104,23 @@
 					"recipe_df.show()"
 				],
 				"execution_count": 41
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"#load the data into data warehouse\n",
+					"\n",
+					"\n",
+					"account_name = \"jessicaadls\"\n",
+					"container_name = \"jessica\"\n",
+					"relative_path = \"recipes\"\n",
+					"adls_path = 'abfss://%s@%s.dfs.core.windows.net/%s' % (container_name, account_name, relative_path)\n",
+					"\n",
+					"\n",
+					"\n",
+					"recipe_df.write.csv(adls_path + \"/recipes.csv\")"
+				],
+				"execution_count": 42
 			},
 			{
 				"cell_type": "code",
