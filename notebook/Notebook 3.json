@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "ed6b5497-c2de-47c0-99d3-42d20e18f381"
+				"spark.autotune.trackingId": "b2d9afe8-e7fe-43a2-8f99-986f7a407d54"
 			}
 		},
 		"metadata": {
@@ -54,6 +54,11 @@
 					"import com.microsoft.spark.sqlanalytics \n",
 					"from com.microsoft.spark.sqlanalytics.Constants import Constants\n",
 					"from pyspark.sql.functions import col\n",
+					"\n",
+					"#other option\n",
+					"# import org.apache.spark.sql.SqlAnalyticsConnector._\n",
+					"#df.write.sqlanalytics(database.schema.table, Constants.INTERNAL)\n",
+					"#spark.read.sqlanalytics(database.schema.table)\n",
 					"\n",
 					"df = spark.read.synapsesql(\"jessicasqlpool.dbo.titanic_mod\")\n",
 					""
