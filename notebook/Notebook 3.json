@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "0f1a94cd-0bf9-4afe-840c-e763e3f617e6"
+				"spark.autotune.trackingId": "b743a59f-a378-4491-bf3b-a1651a453ac0"
 			}
 		},
 		"metadata": {
@@ -51,22 +51,32 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"from pyspark.sql import SparkSession\n",
-					"from pyspark.sql.types import * \n",
+					"import com.microsoft.spark.sqlanalytics \n",
+					"from com.microsoft.spark.sqlanalytics.Constants import Constants\n",
+					"from pyspark.sql.functions import col\n",
 					"\n",
-					"df = spark.read.synapsesql(\"jessicasqlpool.dbo.titanic_mod\")"
+					"df = spark.read.synapsesql(\"jessicasqlpool.dbo.titanic_mod\")\n",
+					""
 				],
-				"execution_count": 5
+				"execution_count": 7
 			},
 			{
 				"cell_type": "code",
 				"source": [
-					"#average fare by each passenger class, sort by fare desc\n",
-					"\n",
-					"#save new table to sql pool\n",
-					"df.write.synapsesql(\"jessicasqlpool.dbo.<table>\", mode=\"overwrite\")"
+					"df.show()"
 				],
-				"execution_count": null
+				"execution_count": 10
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"from pyspark.sql.functions import avg\n",
+					"#average fare by each passenger class, sort by fare desc\n",
+					"df2 = df.groupBy(\"Pclass\").agg(avg(\"Fare\").alias(\"avg_fare\")).sort(col(\"avg_fare\").desc())\n",
+					"\n",
+					"df2.write.synapsesql(\"jessicasqlpool.dbo.avg_fares\")"
+				],
+				"execution_count": 19
 			}
 		]
 	}
