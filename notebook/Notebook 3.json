@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "604e3df1-2153-40e8-a2f2-40987c64a74d"
+				"spark.autotune.trackingId": "fa5aac65-003b-47f3-a4a1-68e4f5220b74"
 			}
 		},
 		"metadata": {
@@ -55,6 +55,16 @@
 					"from pyspark.sql.types import * \n",
 					"\n",
 					"df = spark.read.synapseql(\"dbo.titanic_mod\")"
+				],
+				"execution_count": null
+			},
+			{
+				"cell_type": "code",
+				"source": [
+					"#average fare by each passenger class, sort by fare desc\n",
+					"\n",
+					"#save new table to sql pool\n",
+					""
 				],
 				"execution_count": null
 			}
