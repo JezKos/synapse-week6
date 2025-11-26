@@ -3,7 +3,10 @@
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "jessica-synapse-WorkspaceDefaultSqlServer",
-			"type": "LinkedServiceReference"
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"DBName": "jessicasqlpool"
+			}
 		},
 		"annotations": [],
 		"type": "AzureSqlDWTable",
