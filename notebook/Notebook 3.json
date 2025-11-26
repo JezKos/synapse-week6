@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "fa5aac65-003b-47f3-a4a1-68e4f5220b74"
+				"spark.autotune.trackingId": "0f1a94cd-0bf9-4afe-840c-e763e3f617e6"
 			}
 		},
 		"metadata": {
@@ -25,7 +25,7 @@
 			"enableDebugMode": false,
 			"kernelspec": {
 				"name": "synapse_pyspark",
-				"display_name": "python"
+				"display_name": "Synapse PySpark"
 			},
 			"language_info": {
 				"name": "python"
@@ -54,9 +54,9 @@
 					"from pyspark.sql import SparkSession\n",
 					"from pyspark.sql.types import * \n",
 					"\n",
-					"df = spark.read.synapseql(\"dbo.titanic_mod\")"
+					"df = spark.read.synapsesql(\"jessicasqlpool.dbo.titanic_mod\")"
 				],
-				"execution_count": null
+				"execution_count": 5
 			},
 			{
 				"cell_type": "code",
@@ -64,7 +64,7 @@
 					"#average fare by each passenger class, sort by fare desc\n",
 					"\n",
 					"#save new table to sql pool\n",
-					""
+					"df.write.synapsesql(\"jessicasqlpool.dbo.<table>\", mode=\"overwrite\")"
 				],
 				"execution_count": null
 			}

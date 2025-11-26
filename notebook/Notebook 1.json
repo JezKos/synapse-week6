@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "723b4bd5-d1a0-4de2-9e4b-ca811dd8a801"
+				"spark.autotune.trackingId": "870289ff-7112-4cd4-885e-f2fe4d7b81a0"
 			}
 		},
 		"metadata": {
@@ -53,7 +53,7 @@
 				"source": [
 					"from pyspark.sql import SparkSession\n",
 					"from pyspark.sql.types import * \n",
-					"\n",
+					"#import pyspark.pandas as ps\n",
 					"\n",
 					"account_name = \"jessicaadls\"\n",
 					"container_name = \"jessica\"\n",
@@ -94,9 +94,9 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"data_females"
+					"spark.close()"
 				],
-				"execution_count": 7
+				"execution_count": null
 			}
 		]
 	}
