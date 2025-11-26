@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "2c776361-b815-458e-b6ff-370dee95b424"
+				"spark.autotune.trackingId": "a4478815-7593-4e4b-a1ca-82c5499ccd4c"
 			}
 		},
 		"metadata": {
@@ -85,9 +85,9 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"data.write.csv(adls_path + \"/titanic_mod.csv\")"
+					"data.write.mode(\"overwrite\").option(\"header\", True).csv(adls_path + \"/titanic_mod.csv\")"
 				],
-				"execution_count": 10
+				"execution_count": 13
 			}
 		]
 	}

@@ -1,0 +1,24 @@
+{
+	"name": "NotebookToWarehouse",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "LAKE_titanic",
+						"type": "DatasetReference"
+					},
+					"name": "titanicmod"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     ignoreNoFilesFound: false) ~> titanicmod"
+			]
+		}
+	}
+}
