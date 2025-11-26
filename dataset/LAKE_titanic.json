@@ -14,7 +14,7 @@
 				"folderPath": "titanic",
 				"fileSystem": "jessica"
 			},
-			"columnDelimiter": ",",
+			"columnDelimiter": "\t",
 			"escapeChar": "\\",
 			"firstRowAsHeader": true,
 			"quoteChar": "\""
