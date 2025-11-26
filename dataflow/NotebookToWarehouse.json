@@ -12,12 +12,46 @@
 					"name": "titanicmod"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "AzureSynapseAnalyticsTable6",
+						"type": "DatasetReference"
+					},
+					"name": "sink1"
+				}
+			],
+			"transformations": [
+				{
+					"name": "MapDrifted1",
+					"description": "Creates an explicit mapping for each drifted column"
+				}
+			],
 			"scriptLines": [
 				"source(allowSchemaDrift: true,",
 				"     validateSchema: false,",
-				"     ignoreNoFilesFound: false) ~> titanicmod"
+				"     ignoreNoFilesFound: false) ~> titanicmod",
+				"titanicmod derive(Survived = toString(byName('Survived')),",
+				"          Pclass = toString(byName('Pclass')),",
+				"          Name = toString(byName('Name')),",
+				"          Sex = toString(byName('Sex')),",
+				"          Age = toString(byName('Age')),",
+				"          {Siblings/Spouses Aboard} = toString(byName('Siblings/Spouses Aboard')),",
+				"          {Parents/Children Aboard} = toString(byName('Parents/Children Aboard')),",
+				"          Fare = toString(byName('Fare')),",
+				"          highFare = toString(byName('highFare'))) ~> MapDrifted1",
+				"MapDrifted1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sink1"
 			]
 		}
 	}
