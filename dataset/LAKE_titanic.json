@@ -10,7 +10,8 @@
 		"typeProperties": {
 			"location": {
 				"type": "AzureBlobFSLocation",
-				"folderPath": "titanic/titanic_mod.csv",
+				"fileName": "titanic_mod.csv",
+				"folderPath": "titanic",
 				"fileSystem": "jessica"
 			},
 			"columnDelimiter": ",",
