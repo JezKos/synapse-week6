@@ -17,7 +17,7 @@
 				"spark.dynamicAllocation.enabled": "false",
 				"spark.dynamicAllocation.minExecutors": "2",
 				"spark.dynamicAllocation.maxExecutors": "2",
-				"spark.autotune.trackingId": "a884e653-d447-4927-adfd-0706e5a6a760"
+				"spark.autotune.trackingId": "875b57f7-6775-4b9f-b2cd-42f40edf131e"
 			}
 		},
 		"metadata": {
@@ -65,9 +65,15 @@
 			{
 				"cell_type": "code",
 				"source": [
-					"df.show()"
+					"import org.apache.spark.sql.functions.{avg, col}\n",
+					"\n",
+					"\n",
+					"val df2 = df.groupBy(\"Pclass\").agg(avg(\"Fare\").as(\"avg_fare\")).sort(col(\"avg_fare\"))\n",
+					"\n",
+					"\n",
+					"df2.write.synapsesql(\"jessicasqlpool.dbo.avg_fares2\")"
 				],
-				"execution_count": 2
+				"execution_count": 8
 			}
 		]
 	}
