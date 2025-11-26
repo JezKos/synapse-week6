@@ -93,7 +93,14 @@
 			{
 				"name": "NotebookToWarehouse",
 				"type": "ExecuteDataFlow",
-				"dependsOn": [],
+				"dependsOn": [
+					{
+						"activity": "Notebook1",
+						"dependencyConditions": [
+							"Completed"
+						]
+					}
+				],
 				"policy": {
 					"timeout": "0.12:00:00",
 					"retry": 0,
@@ -106,6 +113,13 @@
 					"dataflow": {
 						"referenceName": "NotebookToWarehouse",
 						"type": "DataFlowReference"
+					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "jessica-synapse-WorkspaceDefaultStorage",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "jessica/synapse"
 					},
 					"compute": {
 						"coreCount": 8,
