@@ -25,6 +25,9 @@
 				{
 					"name": "MapDrifted1",
 					"description": "Creates an explicit mapping for each drifted column"
+				},
+				{
+					"name": "select1"
 				}
 			],
 			"scriptLines": [
@@ -40,7 +43,13 @@
 				"          {Parents/Children Aboard} = toString(byName('Parents/Children Aboard')),",
 				"          Fare = toString(byName('Fare')),",
 				"          highFare = toString(byName('highFare'))) ~> MapDrifted1",
-				"MapDrifted1 sink(allowSchemaDrift: true,",
+				"MapDrifted1 select(mapColumn(",
+				"          each(match(true()),",
+				"               replace($$, ' ','') = $$)",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"select1 sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
