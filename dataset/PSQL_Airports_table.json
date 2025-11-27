@@ -1,0 +1,16 @@
+{
+	"name": "PSQL_Airports_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzurePostgreSql1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzurePostgreSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "bookings",
+			"table": "airports_data"
+		}
+	}
+}
