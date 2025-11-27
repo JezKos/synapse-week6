@@ -1,0 +1,77 @@
+{
+	"name": "PSQL_Routes_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzurePostgreSql1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzurePostgreSqlTable",
+		"schema": [
+			{
+				"name": "flight_no",
+				"type": "character",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "departure_airport",
+				"type": "character",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "departure_airport_name",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "departure_city",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "arrival_airport",
+				"type": "character",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "arrival_airport_name",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "arrival_city",
+				"type": "text",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "aircraft_code",
+				"type": "character",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "duration",
+				"type": "interval",
+				"precision": 0,
+				"scale": 0
+			},
+			{
+				"name": "days_of_week",
+				"type": "ARRAY",
+				"precision": 0,
+				"scale": 0
+			}
+		],
+		"typeProperties": {
+			"schema": "bookings",
+			"table": "routes"
+		}
+	}
+}

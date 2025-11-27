@@ -24,6 +24,20 @@
 						"type": "DatasetReference"
 					},
 					"name": "aircrafts"
+				},
+				{
+					"dataset": {
+						"referenceName": "PSQL_Routes_table",
+						"type": "DatasetReference"
+					},
+					"name": "routes"
+				},
+				{
+					"dataset": {
+						"referenceName": "PSQL_TicketFlight_table",
+						"type": "DatasetReference"
+					},
+					"name": "tickeFlights"
 				}
 			],
 			"sinks": [
@@ -33,9 +47,51 @@
 						"type": "DatasetReference"
 					},
 					"name": "sinkFactFlights"
+				},
+				{
+					"dataset": {
+						"referenceName": "ADLS_DimAicrafts_table",
+						"type": "DatasetReference"
+					},
+					"name": "sinkDimAircrafts"
+				},
+				{
+					"dataset": {
+						"referenceName": "ADLS_DimAirports_table",
+						"type": "DatasetReference"
+					},
+					"name": "sinkDimAirports"
 				}
 			],
-			"transformations": [],
+			"transformations": [
+				{
+					"name": "parse1"
+				},
+				{
+					"name": "parse2"
+				},
+				{
+					"name": "select1"
+				},
+				{
+					"name": "derivedColumn1"
+				},
+				{
+					"name": "select2"
+				},
+				{
+					"name": "selectFlightsColumns"
+				},
+				{
+					"name": "selectOnlyStatus"
+				},
+				{
+					"name": "aggregate1"
+				},
+				{
+					"name": "derivedColumn2"
+				}
+			],
 			"scriptLines": [
 				"source(output(",
 				"          flight_id as integer,",
@@ -83,7 +139,85 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> aircrafts",
-				"flights sink(allowSchemaDrift: true,",
+				"source(output(",
+				"          flight_no as string,",
+				"          departure_airport as string,",
+				"          departure_airport_name as string,",
+				"          departure_city as string,",
+				"          arrival_airport as string,",
+				"          arrival_airport_name as string,",
+				"          arrival_city as string,",
+				"          aircraft_code as string,",
+				"          duration as string,",
+				"          days_of_week as string[]",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> routes",
+				"source(output(",
+				"          ticket_no as string,",
+				"          flight_id as integer,",
+				"          fare_conditions as string,",
+				"          amount as decimal(10,2)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> tickeFlights",
+				"airports parse(airport_name = airport_name ? (en as string),",
+				"          city = city ? (en as string),",
+				"     format: 'json',",
+				"     documentForm: 'singleDocument') ~> parse1",
+				"aircrafts parse(model = model ? (en as string),",
+				"     format: 'json',",
+				"     documentForm: 'singleDocument') ~> parse2",
+				"parse2 select(mapColumn(",
+				"          aircraft_code,",
+				"          model = model.en,",
+				"          range",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select1",
+				"parse1 derive(longitude = regexSplit(coordinates, ',')[1],",
+				"          latitude = regexSplit(coordinates, ',')[2]) ~> derivedColumn1",
+				"derivedColumn1 select(mapColumn(",
+				"          airport_code,",
+				"          airport_name = airport_name.en,",
+				"          city = city.en,",
+				"          timezone,",
+				"          longitude,",
+				"          latitude",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> select2",
+				"flights select(mapColumn(",
+				"          flight_id,",
+				"          flight_no,",
+				"          scheduled_departure,",
+				"          scheduled_departure_local,",
+				"          scheduled_arrival,",
+				"          scheduled_arrival_local,",
+				"          scheduled_duration,",
+				"          status,",
+				"          aircraft_code,",
+				"          actual_departure,",
+				"          actual_departure_local,",
+				"          actual_arrival,",
+				"          actual_arrival_local,",
+				"          actual_duration",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectFlightsColumns",
+				"flights select(mapColumn(",
+				"          status",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> selectOnlyStatus",
+				"selectOnlyStatus aggregate(groupBy(status),",
+				"     status2 = count(status)) ~> aggregate1",
+				"aggregate1 derive(status_id = ERROR_FUNCTION('')) ~> derivedColumn2",
+				"selectFlightsColumns sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
 				"     insertable:true,",
@@ -94,7 +228,31 @@
 				"     allowCopyCommand: true,",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true,",
-				"     errorHandlingOption: 'stopOnFirstError') ~> sinkFactFlights"
+				"     errorHandlingOption: 'stopOnFirstError') ~> sinkFactFlights",
+				"select1 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sinkDimAircrafts",
+				"select2 sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sinkDimAirports"
 			]
 		}
 	}

@@ -1,0 +1,16 @@
+{
+	"name": "ADLS_DimAirports_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "jessica-synapse-WorkspaceDefaultSqlServer",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "dim_airports"
+		}
+	}
+}
