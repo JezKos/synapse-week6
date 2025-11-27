@@ -19,6 +19,13 @@
 						"referenceName": "ETL_flights",
 						"type": "DataFlowReference"
 					},
+					"staging": {
+						"linkedService": {
+							"referenceName": "jessica-synapse-WorkspaceDefaultStorage",
+							"type": "LinkedServiceReference"
+						},
+						"folderPath": "jessica/synapse"
+					},
 					"compute": {
 						"coreCount": 8,
 						"computeType": "General"
