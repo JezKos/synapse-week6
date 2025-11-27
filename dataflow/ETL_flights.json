@@ -24,20 +24,6 @@
 						"type": "DatasetReference"
 					},
 					"name": "aircrafts"
-				},
-				{
-					"dataset": {
-						"referenceName": "PSQL_Routes_table",
-						"type": "DatasetReference"
-					},
-					"name": "routes"
-				},
-				{
-					"dataset": {
-						"referenceName": "PSQL_TicketFlight_table",
-						"type": "DatasetReference"
-					},
-					"name": "tickeFlights"
 				}
 			],
 			"sinks": [
@@ -81,12 +67,6 @@
 				},
 				{
 					"name": "selectFlightsColumns"
-				},
-				{
-					"name": "selectOnlyStatus"
-				},
-				{
-					"name": "aggregate1"
 				}
 			],
 			"scriptLines": [
@@ -136,32 +116,6 @@
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> aircrafts",
-				"source(output(",
-				"          flight_no as string,",
-				"          departure_airport as string,",
-				"          departure_airport_name as string,",
-				"          departure_city as string,",
-				"          arrival_airport as string,",
-				"          arrival_airport_name as string,",
-				"          arrival_city as string,",
-				"          aircraft_code as string,",
-				"          duration as string,",
-				"          days_of_week as string[]",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> routes",
-				"source(output(",
-				"          ticket_no as string,",
-				"          flight_id as integer,",
-				"          fare_conditions as string,",
-				"          amount as decimal(10,2)",
-				"     ),",
-				"     allowSchemaDrift: true,",
-				"     validateSchema: false,",
-				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> tickeFlights",
 				"airports parse(airport_name = airport_name ? (en as string),",
 				"          city = city ? (en as string),",
 				"     format: 'json',",
@@ -206,13 +160,6 @@
 				"     ),",
 				"     skipDuplicateMapInputs: true,",
 				"     skipDuplicateMapOutputs: true) ~> selectFlightsColumns",
-				"flights select(mapColumn(",
-				"          status",
-				"     ),",
-				"     skipDuplicateMapInputs: true,",
-				"     skipDuplicateMapOutputs: true) ~> selectOnlyStatus",
-				"selectOnlyStatus aggregate(groupBy(status),",
-				"     status2 = count(status)) ~> aggregate1",
 				"selectFlightsColumns sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
