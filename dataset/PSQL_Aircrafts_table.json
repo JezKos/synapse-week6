@@ -1,5 +1,5 @@
 {
-	"name": "PSQL_Airports_table",
+	"name": "PSQL_Aircrafts_table",
 	"properties": {
 		"linkedServiceName": {
 			"referenceName": "AzurePostgreSql1",
@@ -9,39 +9,27 @@
 		"type": "AzurePostgreSqlTable",
 		"schema": [
 			{
-				"name": "airport_code",
+				"name": "aircraft_code",
 				"type": "character",
 				"precision": 0,
 				"scale": 0
 			},
 			{
-				"name": "airport_name",
+				"name": "model",
 				"type": "jsonb",
 				"precision": 0,
 				"scale": 0
 			},
 			{
-				"name": "city",
-				"type": "jsonb",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "coordinates",
-				"type": "point",
-				"precision": 0,
-				"scale": 0
-			},
-			{
-				"name": "timezone",
-				"type": "text",
+				"name": "range",
+				"type": "integer",
 				"precision": 0,
 				"scale": 0
 			}
 		],
 		"typeProperties": {
 			"schema": "bookings",
-			"table": "airports_data"
+			"table": "aircrafts_data"
 		}
 	}
 }

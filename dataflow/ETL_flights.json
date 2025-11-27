@@ -1,0 +1,101 @@
+{
+	"name": "ETL_flights",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "PSQL_Flights_table",
+						"type": "DatasetReference"
+					},
+					"name": "flights"
+				},
+				{
+					"dataset": {
+						"referenceName": "PSQL_Airports_table",
+						"type": "DatasetReference"
+					},
+					"name": "airports"
+				},
+				{
+					"dataset": {
+						"referenceName": "PSQL_Aircrafts_table",
+						"type": "DatasetReference"
+					},
+					"name": "aircrafts"
+				}
+			],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "Synapse_FactFlight_table",
+						"type": "DatasetReference"
+					},
+					"name": "sinkFactFlights"
+				}
+			],
+			"transformations": [],
+			"scriptLines": [
+				"source(output(",
+				"          flight_id as integer,",
+				"          flight_no as string,",
+				"          scheduled_departure as timestamp,",
+				"          scheduled_departure_local as timestamp,",
+				"          scheduled_arrival as timestamp,",
+				"          scheduled_arrival_local as timestamp,",
+				"          scheduled_duration as string,",
+				"          departure_airport as string,",
+				"          departure_airport_name as string,",
+				"          departure_city as string,",
+				"          arrival_airport as string,",
+				"          arrival_airport_name as string,",
+				"          arrival_city as string,",
+				"          status as string,",
+				"          aircraft_code as string,",
+				"          actual_departure as timestamp,",
+				"          actual_departure_local as timestamp,",
+				"          actual_arrival as timestamp,",
+				"          actual_arrival_local as timestamp,",
+				"          actual_duration as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> flights",
+				"source(output(",
+				"          airport_code as string,",
+				"          airport_name as string,",
+				"          city as string,",
+				"          coordinates as string,",
+				"          timezone as string",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> airports",
+				"source(output(",
+				"          aircraft_code as string,",
+				"          model as string,",
+				"          range as integer",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> aircrafts",
+				"flights sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sinkFactFlights"
+			]
+		}
+	}
+}
