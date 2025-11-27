@@ -87,9 +87,6 @@
 				},
 				{
 					"name": "aggregate1"
-				},
-				{
-					"name": "derivedColumn2"
 				}
 			],
 			"scriptLines": [
@@ -216,7 +213,6 @@
 				"     skipDuplicateMapOutputs: true) ~> selectOnlyStatus",
 				"selectOnlyStatus aggregate(groupBy(status),",
 				"     status2 = count(status)) ~> aggregate1",
-				"aggregate1 derive(status_id = ERROR_FUNCTION('')) ~> derivedColumn2",
 				"selectFlightsColumns sink(allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     deletable:false,",
