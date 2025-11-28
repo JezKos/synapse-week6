@@ -19,10 +19,40 @@
 					"name": "sourceTicketFlights"
 				}
 			],
-			"sinks": [],
-			"transformations": [],
+			"sinks": [
+				{
+					"dataset": {
+						"referenceName": "ADLS_FlightsTickets_table",
+						"type": "DatasetReference"
+					},
+					"name": "sinkFlightAndTicketData"
+				}
+			],
+			"transformations": [
+				{
+					"name": "joinFlightsTickets"
+				},
+				{
+					"name": "filterNulls"
+				},
+				{
+					"name": "DropDuplicateFlightID"
+				}
+			],
 			"scriptLines": [
-				"source(allowSchemaDrift: true,",
+				"source(output(",
+				"          flight_id as integer,",
+				"          flight_no as string,",
+				"          scheduled_departure as timestamp,",
+				"          scheduled_arrival as timestamp,",
+				"          departure_airport as string,",
+				"          arrival_airport as string,",
+				"          status as string,",
+				"          aircraft_code as string,",
+				"          actual_departure as timestamp,",
+				"          actual_arrival as timestamp",
+				"     ),",
+				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
 				"     format: 'table') ~> sourceFlights",
@@ -35,7 +65,42 @@
 				"     allowSchemaDrift: true,",
 				"     validateSchema: false,",
 				"     isolationLevel: 'READ_UNCOMMITTED',",
-				"     format: 'table') ~> sourceTicketFlights"
+				"     format: 'table') ~> sourceTicketFlights",
+				"sourceFlights, sourceTicketFlights join(sourceFlights@flight_id == sourceTicketFlights@flight_id,",
+				"     joinType:'inner',",
+				"     matchType:'exact',",
+				"     ignoreSpaces: false,",
+				"     broadcast: 'auto')~> joinFlightsTickets",
+				"joinFlightsTickets filter(!isNull(amount)) ~> filterNulls",
+				"filterNulls select(mapColumn(",
+				"          flight_id = sourceFlights@flight_id,",
+				"          flight_no,",
+				"          scheduled_departure,",
+				"          scheduled_arrival,",
+				"          departure_airport,",
+				"          arrival_airport,",
+				"          status,",
+				"          aircraft_code,",
+				"          actual_departure,",
+				"          actual_arrival,",
+				"          ticket_no,",
+				"          fare_conditions,",
+				"          amount",
+				"     ),",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true) ~> DropDuplicateFlightID",
+				"DropDuplicateFlightID sink(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     deletable:false,",
+				"     insertable:true,",
+				"     updateable:false,",
+				"     upsertable:false,",
+				"     format: 'table',",
+				"     staged: true,",
+				"     allowCopyCommand: true,",
+				"     skipDuplicateMapInputs: true,",
+				"     skipDuplicateMapOutputs: true,",
+				"     errorHandlingOption: 'stopOnFirstError') ~> sinkFlightAndTicketData"
 			]
 		}
 	}

@@ -1,0 +1,19 @@
+{
+	"name": "ADLS_FlightsTickets_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "jessica-synapse-WorkspaceDefaultSqlServer",
+			"type": "LinkedServiceReference",
+			"parameters": {
+				"DBName": "jessicasqlpool"
+			}
+		},
+		"annotations": [],
+		"type": "AzureSqlDWTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "dbo",
+			"table": "flights_tickets"
+		}
+	}
+}
