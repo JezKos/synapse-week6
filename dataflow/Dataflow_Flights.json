@@ -1,0 +1,42 @@
+{
+	"name": "Dataflow_Flights",
+	"properties": {
+		"type": "MappingDataFlow",
+		"typeProperties": {
+			"sources": [
+				{
+					"dataset": {
+						"referenceName": "PSQL_FlightsAssignment_table",
+						"type": "DatasetReference"
+					},
+					"name": "sourceFlights"
+				},
+				{
+					"dataset": {
+						"referenceName": "PSQL_TicketFlights_table",
+						"type": "DatasetReference"
+					},
+					"name": "sourceTicketFlights"
+				}
+			],
+			"sinks": [],
+			"transformations": [],
+			"scriptLines": [
+				"source(allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> sourceFlights",
+				"source(output(",
+				"          ticket_no as string,",
+				"          flight_id as integer,",
+				"          fare_conditions as string,",
+				"          amount as decimal(10,2)",
+				"     ),",
+				"     allowSchemaDrift: true,",
+				"     validateSchema: false,",
+				"     isolationLevel: 'READ_UNCOMMITTED',",
+				"     format: 'table') ~> sourceTicketFlights"
+			]
+		}
+	}
+}

@@ -1,0 +1,16 @@
+{
+	"name": "PSQL_FlightsAssignment_table",
+	"properties": {
+		"linkedServiceName": {
+			"referenceName": "AzurePostgreSql1",
+			"type": "LinkedServiceReference"
+		},
+		"annotations": [],
+		"type": "AzurePostgreSqlTable",
+		"schema": [],
+		"typeProperties": {
+			"schema": "bookings",
+			"table": "flights"
+		}
+	}
+}
